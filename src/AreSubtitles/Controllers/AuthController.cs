@@ -7,7 +7,6 @@ namespace src.Controllers
     [Route("[controller]")]
     public class AuthController: ControllerBase
     {
-        
         [HttpPost("token")]
         public async Task<string> Get()
         {
