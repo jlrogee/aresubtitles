@@ -41,6 +41,8 @@ namespace src.Services
             var dict = new Dictionary<string, WordEntry>();
             foreach (var sub in subs)
             {
+                if (sub == null) continue;
+                
                 var cleanStr = Regex.Replace(sub.Text, "[^A-Za-z0-9 -']", "")
                     .Replace("!", ""); // ?
 
