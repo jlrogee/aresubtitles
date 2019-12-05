@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using src.Services;
-using src.Storage;
 
 namespace src.Controllers
 {
@@ -12,14 +11,10 @@ namespace src.Controllers
     public class SubtitlesController : ControllerBase
     {
         private readonly IMoviesService _moviesService;
-        private readonly IStorage _storage;
 
-        public SubtitlesController(
-            IMoviesService moviesService,
-            IStorage storage)
+        public SubtitlesController(IMoviesService moviesService)
         {
             _moviesService = moviesService;
-            _storage = storage;
         }
 
         /// <summary>
@@ -42,8 +37,7 @@ namespace src.Controllers
             if (string.IsNullOrEmpty(fileContent))
                 return BadRequest("Empty text");
 
-            var movie = _moviesService.CreateMovie(IdGenerator.GetNewId(), fileContent);
-            _storage.Put(movie.Id, movie);
+            var movie = await _moviesService.CreateMovie(fileContent);
             
             return Ok(movie);
         }
@@ -55,7 +49,7 @@ namespace src.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> Get(long id)
         {
-            var movie = _storage.Get(id);
+            var movie = await _moviesService.GetMovie(id);
             return movie == null ? (IActionResult) NotFound() : Ok(movie);
         }
         
@@ -66,7 +60,7 @@ namespace src.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> GetWords(long id)
         {
-            var movie = _storage.Get(id);
+            var movie = await _moviesService.GetMovie(id);
             if (movie == null) return NotFound();
 
             return Ok(movie.Words);

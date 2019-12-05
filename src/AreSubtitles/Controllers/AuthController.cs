@@ -10,7 +10,7 @@ namespace src.Controllers
         [HttpPost("token")]
         public async Task<string> Get()
         {
-            return "okboomer";
+            return await Task.FromResult("okboomer");
         }
     }
 }
