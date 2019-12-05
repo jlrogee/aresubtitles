@@ -18,7 +18,7 @@ namespace src.Services.Parsers
         }
 
         public IEnumerable<SubtitleItem> Parse(string src)
-            => GetRawSubtitles(src).Select(DoSubtitle);
+            => GetRawSubtitles(src).Select(DoSubtitle).Where(x => x != null);
 
         private IEnumerable<string> GetRawSubtitles(string src)
         {
@@ -26,7 +26,7 @@ namespace src.Services.Parsers
 
             var sub = new StringBuilder();
 
-            foreach (var str in src.Split(Environment.NewLine, StringSplitOptions.None))
+            foreach (var str in src.Split(Environment.NewLine))
             {
                 if (str.Trim().Length != 0)
                     sub.Append($"{str.Trim()}{Environment.NewLine}");
