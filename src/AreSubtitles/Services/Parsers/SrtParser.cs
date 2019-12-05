@@ -9,6 +9,13 @@ namespace src.Services.Parsers
     public class SrtParser : ISrtParser
     {
         private readonly string[] _timeSeparators = { "-->", "- >", "->" };
+        private readonly IPhraseSplitter _phraseSplitter;
+
+        public SrtParser(
+            IPhraseSplitter phraseSplitter)
+        {
+            _phraseSplitter = phraseSplitter;
+        }
 
         public IEnumerable<SubtitleItem> Parse(string src)
             => GetRawSubtitles(src).Select(DoSubtitle);
@@ -53,6 +60,7 @@ namespace src.Services.Parsers
                 return null;
 
             sub.Text = string.Join(" ", src.Skip(2));
+            sub.Words = _phraseSplitter.Split(sub.Text);
 
             return sub;
         }

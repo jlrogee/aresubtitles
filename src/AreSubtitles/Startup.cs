@@ -10,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using src.Services;
 using src.Services.Parsers;
+using src.Storage;
 
 namespace src
 {
@@ -27,6 +29,10 @@ namespace src
         {
             services.AddControllers();
             services.AddTransient<ISrtParser, SrtParser>();
+            services.AddTransient<IPhraseSplitter, PhraseSplitter>();
+            services.AddTransient<IMoviesService, MoviesService>();
+            
+            services.AddSingleton<IStorage, InMemoryStorage>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,11 +43,8 @@ namespace src
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

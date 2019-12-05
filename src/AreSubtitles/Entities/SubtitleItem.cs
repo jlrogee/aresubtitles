@@ -10,5 +10,6 @@ namespace src.Entities
         public int Start { get; set; }
         public int End { get; set; }
         public string Text { get; set; }
+        public string[] Words { get; set; }
     }
 }

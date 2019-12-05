@@ -5,20 +5,20 @@ namespace src.Entities
 {
     public class WordEntry
     {
-        public HashSet<int> FromSubs { get; }
-        public int Count { get; private set; } = 1;
         public string Word { get; }
+        public int CountInMovie { get; private set; } = 1;
+        public HashSet<int> SubtitlesNo { get; }
 
         public WordEntry(string word)
         {
-            FromSubs = new HashSet<int>();
+            SubtitlesNo = new HashSet<int>();
             Word = word;
         }
 
-        public void Increment() => Count++;
-        public void FoundInSub(int subNum) => FromSubs.Add(subNum);
+        public void Increment() => CountInMovie++;
+        public void FoundInSub(int subNum) => SubtitlesNo.Add(subNum);
 
         public override string ToString()
-            => $"Entries {Count} in subs: {string.Join(", ", FromSubs.Select(x => x))}";
+            => $"Entries {CountInMovie} in subs: {string.Join(", ", SubtitlesNo.Select(x => x))}";
     }
 }
