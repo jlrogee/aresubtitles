@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using src.Entities;
 
@@ -8,83 +7,38 @@ namespace src.Services.Parsers
 {
     public class SrtParser : ISrtParser
     {
-        private readonly string[] _timeSeparators = { "-->", "- >", "->" };
         private readonly IPhraseSplitter _phraseSplitter;
+        private readonly ISrtSubtitleBuilder _srtSubtitleBuilder;
 
         public SrtParser(
-            IPhraseSplitter phraseSplitter)
+            IPhraseSplitter phraseSplitter, ISrtSubtitleBuilder srtSubtitleBuilder)
         {
             _phraseSplitter = phraseSplitter;
+            _srtSubtitleBuilder = srtSubtitleBuilder;
         }
 
         public IEnumerable<SubtitleItem> Parse(string src)
-            => GetRawSubtitles(src).Select(DoSubtitle).Where(x => x != null);
+            => GetRawSubtitles(src);
 
-        private IEnumerable<string> GetRawSubtitles(string src)
+        private IEnumerable<SubtitleItem> GetRawSubtitles(string src)
         {
-            var rawSubs = new List<string>();
-
-            var sub = new StringBuilder();
+            var subPhrase = new StringBuilder();
 
             foreach (var str in src.Split(Environment.NewLine))
             {
                 if (str.Trim().Length != 0)
-                    sub.Append($"{str.Trim()}{Environment.NewLine}");
+                    subPhrase.Append($"{str.Trim()}{Environment.NewLine}");
                 else
                 {
-                    rawSubs.Add(sub.ToString());
-                    sub.Clear();
+                    var subtitle = _srtSubtitleBuilder.Build(subPhrase.ToString());
+                    if (subtitle != null)
+                        yield return subtitle;
+                    
+                    subPhrase.Clear();
                 }
             }
 
-            sub.Clear();
-
-            return rawSubs;
-        }
-
-        private SubtitleItem DoSubtitle(string raw)
-        {
-            var sub = new SubtitleItem();
-
-            var src = raw.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-
-            if (src.Count() < 3)
-                return null;
-
-            if (!int.TryParse(src[0], out int num))
-                return null;
-
-            sub.Num = num;
-
-            if (!SetTime(src[1], ref sub))
-                return null;
-
-            sub.Text = string.Join(" ", src.Skip(2));
-            sub.Words = _phraseSplitter.Split(sub.Text);
-
-            return sub;
-        }
-
-        private bool SetTime(string timeStr, ref SubtitleItem sub)
-        {
-            var timeArr = timeStr.Split(_timeSeparators, StringSplitOptions.RemoveEmptyEntries);
-
-            if (timeArr.Length != 2)
-                return false;
-
-            sub.Start = ParseTimeCode(timeArr[0]);
-            if (sub.Start == -1)
-                return false;
-
-            sub.End = ParseTimeCode(timeArr[1]);
-            return sub.End != 1;
-        }
-
-        private static int ParseTimeCode(string src)
-        {
-            return TimeSpan.TryParse(src.Replace(',', '.'), out TimeSpan res) 
-                ? (int)res.TotalMilliseconds
-                : -1;
+            subPhrase.Clear();
         }
     }
 }

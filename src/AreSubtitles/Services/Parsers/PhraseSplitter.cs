@@ -8,6 +8,9 @@ namespace src.Services.Parsers
         public string[] Split(string text)
         {
             var cleanStr = Regex.Replace(text, "[^A-Za-z0-9 -']", "")
+                
+                // TODO Remove tags
+                
                 .Replace("!", ""); // ?
 
             return cleanStr.Split(' ', StringSplitOptions.RemoveEmptyEntries);

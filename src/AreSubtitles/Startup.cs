@@ -31,6 +31,7 @@ namespace src
             services.AddTransient<ISrtParser, SrtParser>();
             services.AddTransient<IPhraseSplitter, PhraseSplitter>();
             services.AddTransient<IMoviesService, MoviesService>();
+            services.AddTransient<ISrtSubtitleBuilder, SrtSubtitleBuilder>();
             
             services.AddSingleton<IStorage, InMemoryStorage>();
         }
