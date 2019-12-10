@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace src.Services.Parsers
+namespace Application.Services.Parsers
 {
     public class PhraseSplitter : IPhraseSplitter
     {
