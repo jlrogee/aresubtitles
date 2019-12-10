@@ -1,37 +1,46 @@
+using Application.Providers;
+using Application.Providers.OpenSubtitles;
 using Application.Services;
 using Application.Services.Parsers;
+using Application.Sourcing.Http.OpenSubtitles;
+using Application.Storage;
+using Autofac;
+using Autofac.Core;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using src.Services.Parsers;
-using src.Storage;
 
 namespace src
 {
     public class Startup
     {
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
+        public ILifetimeScope AutofacContainer { get; private set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
             services.AddControllers();
-            services.AddTransient<ISrtParser, SrtParser>();
-            services.AddTransient<IPhraseSplitter, PhraseSplitter>();
-            services.AddTransient<IMoviesService, MoviesService>();
-            services.AddTransient<ISrtSubtitleBuilder, SrtSubtitleBuilder>();
-            
-            services.AddSingleton<IStorage, InMemoryStorage>();
+        }
+        
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new AutofacModule());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

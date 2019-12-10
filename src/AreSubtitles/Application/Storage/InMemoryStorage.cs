@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using Domain.Entities;
 
-namespace src.Storage
+namespace Application.Storage
 {
     public class InMemoryStorage : IStorage
     {
