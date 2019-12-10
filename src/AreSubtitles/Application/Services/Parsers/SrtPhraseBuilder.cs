@@ -1,8 +1,9 @@
 using System;
 using System.Linq;
-using src.Entities;
+using Domain.Entities;
+using src.Services.Parsers;
 
-namespace src.Services.Parsers
+namespace Application.Services.Parsers
 {
     public class SrtSubtitleBuilder : ISrtSubtitleBuilder
     {

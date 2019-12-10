@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using src.Entities;
+using Application.Services.Parsers;
+using Domain.Entities;
 
 namespace src.Services.Parsers
 {

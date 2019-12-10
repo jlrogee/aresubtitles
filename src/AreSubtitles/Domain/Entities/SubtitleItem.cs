@@ -1,4 +1,4 @@
-namespace src.Entities
+namespace Domain.Entities
 {
     public class SubtitleItem
     {

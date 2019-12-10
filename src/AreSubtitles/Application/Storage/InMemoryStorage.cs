@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using System.Threading;
-using src.Entities;
+using Domain.Entities;
 
 namespace src.Storage
 {

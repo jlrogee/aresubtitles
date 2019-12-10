@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using src.Entities;
+using Application.Services.Parsers;
+using Domain.Entities;
 using src.Services.Parsers;
 using src.Storage;
 
-namespace src.Services
+namespace Application.Services
 {
     public class MoviesService : IMoviesService
     {

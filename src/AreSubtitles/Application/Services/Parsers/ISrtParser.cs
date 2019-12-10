@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using src.Entities;
+using Domain.Entities;
 
-namespace src.Services.Parsers
+namespace Application.Services.Parsers
 {
     public interface ISrtParser
     {

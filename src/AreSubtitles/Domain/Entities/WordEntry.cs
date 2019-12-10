@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace src.Entities
+namespace Domain.Entities
 {
     public class WordEntry
     {
