@@ -9,7 +9,7 @@ namespace Application.Sourcing.Http.OpenSubtitles
     {
         private readonly string requestUriTemplate = "https://rest.opensubtitles.org/search/imdbid-{0}/sublanguageid-{1}";
         
-        public GetSubtitlesByImdbId(IHttpClientFactory clientFactory) 
+        public GetSubtitlesByImdbId(IHttpClientFactory  clientFactory) 
             : base(clientFactory)
         {
         }
