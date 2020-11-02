@@ -1,18 +1,10 @@
-using Application.Providers;
-using Application.Providers.OpenSubtitles;
-using Application.Services;
-using Application.Services.Parsers;
-using Application.Sourcing.Http.OpenSubtitles;
-using Application.Storage;
 using Autofac;
-using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using src.Services.Parsers;
 
 namespace src
 {

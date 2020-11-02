@@ -4,7 +4,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Application.Sourcing.Http.OpenSubtitles
 {
-    public class SubtitlesByImdbIdDtoSimple
+    public class SubtitlesByImdbIdDtoShort
     {
         [JsonProperty("SubDownloadLink")]
         public string SubDownloadLink { get; set; }

@@ -2,15 +2,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Providers;
 using Application.Services;
 using Application.Sourcing.Http.OpenSubtitles;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using ICSharpCode.SharpZipLib.Zip;
+using Sourcing;
 
 namespace src.Controllers
 {
@@ -18,32 +16,31 @@ namespace src.Controllers
     [Route("[controller]")]
     public class SearchController : Controller
     {
-        private readonly IImdbIdProvider _imdbIdProvider;
+        private readonly IOpenSubtitleService _openSubtitleService;
         private readonly IMoviesService _moviesService;
         
         public SearchController(
-            IImdbIdProvider imdbIdProvider,
-            IMoviesService moviesService)
+            IMoviesService moviesService,
+            IOpenSubtitleService openSubtitleService)
         {
-            _imdbIdProvider = imdbIdProvider;
             _moviesService = moviesService;
+            _openSubtitleService = openSubtitleService;
         }
         
         [HttpGet("{imdbId}")]
         public async Task<IActionResult> ByImdbId(string imdbId)
         {
-            var raw = await _imdbIdProvider.GetByImdbIdRaw(imdbId);
-            var films = JsonConvert.DeserializeObject<List<SubtitlesByImdbIdDtoSimple>>(raw);
+            var films = await _openSubtitleService.GetByImdbIdRaw(imdbId);
 
-            films = FilterByLanguage(films, LanguageIso639.En);
-            var topContent = films.OrderByDescending(x => x.Score).FirstOrDefault();
+            var topContent = 
+                films.OrderByDescending(x => x.Score).FirstOrDefault();
             
             if (topContent == null)
                 return Ok(HttpStatusCode.NotFound);
 
-            using (var stream = new MemoryStream(
-                new WebClient().DownloadData(topContent.ZipDownloadLink)))
-            using (var zipInputStream = new ZipInputStream(stream))
+            await using (var stream = 
+                new MemoryStream(new WebClient().DownloadData(topContent.ZipDownloadLink)))
+            await using (var zipInputStream = new ZipInputStream(stream))
             {
                 var entry = zipInputStream.GetNextEntry();
                 if (entry.IsFile && entry.Name.Contains(SubFormat.Srt.ToString().ToLower()))
@@ -60,10 +57,11 @@ namespace src.Controllers
                 }
             }
             
-            return Ok(raw);
+            return Ok(films);
         }
 
-        private List<SubtitlesByImdbIdDtoSimple> FilterByLanguage(List<SubtitlesByImdbIdDtoSimple> films, LanguageIso639 language)
+        private List<SubtitlesByImdbIdDtoShort> FilterByLanguage(
+            IEnumerable<SubtitlesByImdbIdDtoShort> films, LanguageIso639 language)
             => films.Where(x => x.Language == language).ToList();
     }
 }

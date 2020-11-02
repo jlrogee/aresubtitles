@@ -1,12 +1,8 @@
-using System.Reflection;
-using Application.Providers;
-using Application.Providers.OpenSubtitles;
 using Application.Services;
 using Application.Services.Parsers;
-using Application.Sourcing.Http.OpenSubtitles;
 using Application.Storage;
 using Autofac;
-using Infrastructure.Http.Abstract;
+using Sourcing;
 using src.Services.Parsers;
 using Module = Autofac.Module;
 
@@ -21,9 +17,9 @@ namespace src
             builder.Register<IMoviesService, MoviesService>();
             builder.Register<ISrtSubtitleBuilder, SrtSubtitleBuilder>();
             builder.Register<IStorage, InMemoryStorage>();
-            builder.Register<IImdbIdProvider, OpenSubtitlesProvider>();
+            builder.Register<IOpenSubtitleService, OpenSubtitlesService>();
             
-            builder.RegisterType<GetSubtitlesByImdbId>();
+            builder.RegisterType<OpenSubtitleClient>();
             
             // TODO: register all implementations
 //            var assemblies = Assembly.GetExecutingAssembly();
