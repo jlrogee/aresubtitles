@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Domain.Persistence.Contract;
 using MongoDB.Driver;
 
 namespace Infrastructure.Db.Repository

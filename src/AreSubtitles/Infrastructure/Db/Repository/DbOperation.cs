@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Persistence.Contract;
 using MongoDB.Driver;
 
 namespace Infrastructure.Db.Repository

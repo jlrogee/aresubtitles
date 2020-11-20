@@ -1,4 +1,4 @@
-namespace Domain.Entities
+namespace Domain.Persistence.Contract
 {
     public interface IDocument : IDocumentWithKey<string>
     {

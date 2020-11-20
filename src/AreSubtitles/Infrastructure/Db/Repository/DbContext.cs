@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using Domain.Entities;
+using Domain.Persistence.Contract;
+using Domain.Utils;
 using MongoDB.Driver;
 
 namespace Infrastructure.Db.Repository

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Domain.Persistence.Contract;
 using MongoDB.Driver;
 
 namespace Infrastructure.Db.Repository

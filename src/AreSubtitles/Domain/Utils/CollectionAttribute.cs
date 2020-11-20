@@ -1,6 +1,6 @@
 using System;
 
-namespace Domain.Entities
+namespace Domain.Utils
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class CollectionAttribute : Attribute

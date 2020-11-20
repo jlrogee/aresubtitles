@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Persistence.Contract;
+using Domain.Utils;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Entities
