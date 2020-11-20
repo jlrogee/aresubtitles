@@ -6,6 +6,7 @@ using Domain.Entities;
 using Domain.Parsers;
 using Domain.Persistence.Contract;
 using Domain.Services.Contract;
+using Domain.Utils;
 
 namespace Domain.Services
 {

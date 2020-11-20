@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using MongoDB.Bson;
 
-namespace Domain.Services.Contract
+namespace Domain.Utils
 {
     public static class IdGenerator
     {
