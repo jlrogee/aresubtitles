@@ -1,9 +1,9 @@
 using Application.Services;
-using Application.Services.Parsers;
-using Application.Storage;
 using Autofac;
+using Domain.Parsers;
+using Domain.Services;
+using Domain.Services.Contract;
 using Sourcing;
-using src.Services.Parsers;
 using Module = Autofac.Module;
 
 namespace src
@@ -16,8 +16,9 @@ namespace src
             builder.Register<IPhraseSplitter, PhraseSplitter>();
             builder.Register<IMoviesService, MoviesService>();
             builder.Register<ISrtSubtitleBuilder, SrtSubtitleBuilder>();
-            builder.Register<IStorage, InMemoryStorage>();
+            //builder.Register<IStorage, InMemoryStorage>();
             builder.Register<IOpenSubtitleService, OpenSubtitlesService>();
+            builder.Register<ISearchService, SearchService>();
             
             builder.RegisterType<OpenSubtitleClient>();
             

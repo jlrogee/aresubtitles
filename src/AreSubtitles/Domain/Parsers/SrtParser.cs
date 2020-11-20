@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Application.Services.Parsers;
 using Domain.Entities;
 
-namespace src.Services.Parsers
+namespace Domain.Parsers
 {
     public class SrtParser : ISrtParser
     {
@@ -18,10 +17,10 @@ namespace src.Services.Parsers
             _srtSubtitleBuilder = srtSubtitleBuilder;
         }
 
-        public IEnumerable<SubtitleItem> Parse(string src)
+        public IEnumerable<SubtitleItemEmbedDocument> Parse(string src)
             => GetRawSubtitles(src);
 
-        private IEnumerable<SubtitleItem> GetRawSubtitles(string src)
+        private IEnumerable<SubtitleItemEmbedDocument> GetRawSubtitles(string src)
         {
             var subPhrase = new StringBuilder();
 

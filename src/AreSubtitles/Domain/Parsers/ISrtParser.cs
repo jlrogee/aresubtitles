@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using Domain.Entities;
 
-namespace Application.Services.Parsers
+namespace Domain.Parsers
 {
     public interface ISrtParser
     {
-        IEnumerable<SubtitleItem> Parse(string src);
+        IEnumerable<SubtitleItemEmbedDocument> Parse(string src);
     }
 }
