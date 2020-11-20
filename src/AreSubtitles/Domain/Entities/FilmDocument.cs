@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Entities
 {
-    [BsonCollection("films")]
+    [Collection("films")]
     public class FilmDocument : IDocument
     {
         private Dictionary<string, WordEntry> _wordEntriesDictionary;
