@@ -18,7 +18,7 @@ namespace Domain.Persistence.Contract
         IAsyncEnumerable<TDocument> Get(FilterDefinition<TDocument> filter,
             int? limit = null,
             int? batchSize = null,
-            SortDefinition<TDocument> sorting = null, [EnumeratorCancellation] CancellationToken cancellationToken = default);
+            SortDefinition<TDocument> sorting = null, CancellationToken cancellationToken = default);
 
         Task<TDocument> Insert(TDocument doc, CancellationToken cancellationToken = default);
         Task<IEnumerable<TDocument>> InsertMany(List<TDocument> docs, CancellationToken cancellationToken = default);
