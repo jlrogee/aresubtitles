@@ -1,6 +1,6 @@
 namespace Domain.Entities
 {
-    public class SubtitleItem
+    public class SubtitleItemEmbedDocument
     {
 
         public int Num { get; set; }

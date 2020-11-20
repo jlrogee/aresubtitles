@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
 using Domain.Entities;
-using src.Services.Parsers;
 
-namespace Application.Services.Parsers
+namespace Domain.Parsers
 {
     public class SrtSubtitleBuilder : ISrtSubtitleBuilder
     {
@@ -16,13 +15,13 @@ namespace Application.Services.Parsers
             _phraseSplitter = phraseSplitter;
         }
         
-        public SubtitleItem Build(string rawPhrase)
+        public SubtitleItemEmbedDocument Build(string rawPhrase)
         {
-            var sub = new SubtitleItem();
+            var sub = new SubtitleItemEmbedDocument();
 
             var src = rawPhrase.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
-            if (src.Count() < 3)
+            if (src.Length < 3)
                 return null;
 
             if (!int.TryParse(src[0], out int num))
@@ -39,7 +38,7 @@ namespace Application.Services.Parsers
             return sub;
         }
 
-        private bool SetTime(string timeStr, ref SubtitleItem sub)
+        private bool SetTime(string timeStr, ref SubtitleItemEmbedDocument sub)
         {
             var timeArr = timeStr.Split(_timeSeparators, StringSplitOptions.RemoveEmptyEntries);
 
@@ -64,6 +63,6 @@ namespace Application.Services.Parsers
     
     public interface ISrtSubtitleBuilder
     {
-        SubtitleItem Build(string rawPhrase);
+        SubtitleItemEmbedDocument Build(string rawPhrase);
     }
 }

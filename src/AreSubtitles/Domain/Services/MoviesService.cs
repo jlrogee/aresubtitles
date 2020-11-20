@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Application.Services.Parsers;
-using Application.Storage;
 using Domain.Entities;
-using src.Services.Parsers;
+using Domain.Parsers;
+using Domain.Persistence.Contract;
+using Domain.Services.Contract;
 
-namespace Application.Services
+namespace Domain.Services
 {
     public class MoviesService : IMoviesService
     {
@@ -25,7 +25,7 @@ namespace Application.Services
             _storage = storage;
         }
 
-        public async Task<Movie> CreateMovie(string rawContent)
+        public async Task<FilmDocument> CreateMovie(string rawContent)
         {
             if (_storage.GetIdIfExists(rawContent.GetHashCode(), out long foundId))
                 return await Task.FromResult(_storage.Get(foundId));
@@ -33,7 +33,7 @@ namespace Application.Services
             var subs = _srtParser.Parse(rawContent).ToArray();
             var words = GetWordEntries(subs);
             
-            var movie = new Movie
+            var movie = new FilmDocument
             {
                 Id = IdGenerator.GetNewId(),
                 Hashcode = rawContent.GetHashCode(),
@@ -47,12 +47,12 @@ namespace Application.Services
             return movie;
         }
 
-        public async Task<Movie> GetMovie(long id)
+        public async Task<FilmDocument> GetMovie(long id)
         {
             return await Task.FromResult(_storage.Get(id));
         }
 
-        private Dictionary<string, WordEntry> GetWordEntries(SubtitleItem[] subs)
+        private Dictionary<string, WordEntry> GetWordEntries(SubtitleItemEmbedDocument[] subs)
         {
             var dict = new Dictionary<string, WordEntry>();
             foreach (var sub in subs)
@@ -82,14 +82,5 @@ namespace Application.Services
 
             return dict;
         }
-    }
-    
-    
-
-    public interface IMoviesService
-    {
-        Task<Movie> CreateMovie(string rawContent);
-
-        Task<Movie> GetMovie(long id);
     }
 }
