@@ -13,12 +13,12 @@ namespace Domain.Services
     {
         private readonly ISrtParser _srtParser;
         private readonly IPhraseSplitter _phraseSplitter;
-        private readonly IStorage _storage;
+        private readonly IFilmRepository _storage;
 
         public MoviesService(
             ISrtParser srtParser,
             IPhraseSplitter phraseSplitter,
-            IStorage storage)
+            IFilmRepository storage)
         {
             _srtParser = srtParser;
             _phraseSplitter = phraseSplitter;
@@ -27,8 +27,9 @@ namespace Domain.Services
 
         public async Task<FilmDocument> CreateMovie(string rawContent)
         {
-            if (_storage.GetIdIfExists(rawContent.GetHashCode(), out long foundId))
-                return await Task.FromResult(_storage.Get(foundId));
+            var existed = await _storage.GetIdByHashcode(rawContent.GetHashCode());
+            if (existed != null)
+                return existed;
             
             var subs = _srtParser.Parse(rawContent).ToArray();
             var words = GetWordEntries(subs);
@@ -42,14 +43,14 @@ namespace Domain.Services
             
             movie.SetWords(words);
             
-            _storage.Put(movie.Id, movie);
+            await _storage.Insert(movie);
 
             return movie;
         }
 
-        public async Task<FilmDocument> GetMovie(long id)
+        public async Task<FilmDocument> GetMovie(string id)
         {
-            return await Task.FromResult(_storage.Get(id));
+            return await _storage.ById(id);
         }
 
         private Dictionary<string, WordEntry> GetWordEntries(SubtitleItemEmbedDocument[] subs)

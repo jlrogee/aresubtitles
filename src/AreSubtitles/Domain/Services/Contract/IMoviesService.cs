@@ -7,6 +7,6 @@ namespace Domain.Services.Contract
     {
         Task<FilmDocument> CreateMovie(string rawContent);
 
-        Task<FilmDocument> GetMovie(long id);
+        Task<FilmDocument> GetMovie(string id);
     }
 }

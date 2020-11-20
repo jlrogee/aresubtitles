@@ -1,8 +1,11 @@
+using Application.Persistence.Implementations;
 using Application.Services;
 using Autofac;
 using Domain.Parsers;
+using Domain.Persistence.Contract;
 using Domain.Services;
 using Domain.Services.Contract;
+using Infrastructure.Db.Repository;
 using Sourcing;
 using Module = Autofac.Module;
 
@@ -16,9 +19,11 @@ namespace src
             builder.Register<IPhraseSplitter, PhraseSplitter>();
             builder.Register<IMoviesService, MoviesService>();
             builder.Register<ISrtSubtitleBuilder, SrtSubtitleBuilder>();
-            //builder.Register<IStorage, InMemoryStorage>();
+            builder.Register<IFilmRepository, FilmRepository>();
             builder.Register<IOpenSubtitleService, OpenSubtitlesService>();
             builder.Register<ISearchService, SearchService>();
+            
+            builder.Register<IDbContext, DbContext>();
             
             builder.RegisterType<OpenSubtitleClient>();
             

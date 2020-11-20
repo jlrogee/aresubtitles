@@ -47,7 +47,7 @@ namespace src.Controllers
         /// </summary>
         [HttpGet("{id}")]
         [Produces("application/json")]
-        public async Task<IActionResult> Get(long id)
+        public async Task<IActionResult> Get(string id)
         {
             var movie = await _moviesService.GetMovie(id);
             return movie == null ? (IActionResult) NotFound() : Ok(movie);
@@ -58,7 +58,7 @@ namespace src.Controllers
         /// </summary>
         [HttpGet("{id}/words")]
         [Produces("application/json")]
-        public async Task<IActionResult> GetWords(long id)
+        public async Task<IActionResult> GetWords(string id)
         {
             var movie = await _moviesService.GetMovie(id);
             if (movie == null) return NotFound();

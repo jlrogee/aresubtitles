@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Entities
 {
-    public class FilmDocument
+    [BsonCollection("films")]
+    public class FilmDocument : IDocument
     {
         private Dictionary<string, WordEntry> _wordEntriesDictionary;
         
@@ -13,8 +13,6 @@ namespace Domain.Entities
         
         public long Hashcode { get; set; }
 
-        
-        [BsonIgnore]
         public SubtitleItemEmbedDocument [] Subtitles { get; set; }
         public WordEntry[] Words => _wordEntriesDictionary?.Values.ToArray();
 
