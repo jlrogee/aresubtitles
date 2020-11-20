@@ -23,6 +23,7 @@ namespace src
         {
             services.AddHttpClient();
             services.AddControllers();
+            services.AddSwaggerGen();
         }
         
         public void ConfigureContainer(ContainerBuilder builder)
@@ -32,11 +33,18 @@ namespace src
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            
             AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Subtitles Api");
+            });
 
             app.UseHttpsRedirection();
             app.UseRouting();
