@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Debug.Commands;
 
@@ -15,7 +16,7 @@ namespace Debug
         const string EXIT_CODE = "q";
 
         
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             RegisterCommands();
 
@@ -37,7 +38,7 @@ namespace Debug
                 }
 
                 Console.WriteLine("Cmd started");
-                command.Execute();
+                await command.Execute();
                 Console.WriteLine("Cmd finished");
             }
         }
